@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Product\IndexProductController;
 use App\Http\Controllers\Api\Product\ShowProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,5 +27,6 @@ Route::prefix('products')
     ->as('products.')
     ->middleware('auth:sanctum')
     ->group(static function (): void {
-        Route::get('{product}', ShowProductController::class)->name('index');
+        Route::get('/', IndexProductController::class)->name('index');
+        Route::get('{product}', ShowProductController::class)->name('show');
     });
