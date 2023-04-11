@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Product;
+use App\Traits\CalculatePriceTrait;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -12,12 +13,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 final class ProductFactory extends Factory
 {
+
+    use CalculatePriceTrait;
+
     public function definition(): array
     {
         $vatArray = [10, 15, 20];
         $vat = $vatArray[array_rand([10, 15, 20])];
         $priceExcludingVat = rand(1000, 10000);
-        $price = $priceExcludingVat + ($priceExcludingVat * ($vat / 100));
+        $price = $this->calculatePrice(priceExcludingVat: $priceExcludingVat, vat: $vat);
 
         return [
             'name' => $this->faker->words(3, true),
