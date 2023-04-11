@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Product\DeleteProductController;
 use App\Http\Controllers\Api\Product\IndexProductController;
 use App\Http\Controllers\Api\Product\ShowProductController;
 use App\Http\Controllers\Api\Product\StoreProductController;
@@ -33,4 +34,5 @@ Route::prefix('products')
         Route::get('{product}', ShowProductController::class)->name('show');
         Route::post('/', StoreProductController::class)->name('store');
         Route::put('{product}', UpdateProductController::class)->name('update');
+        Route::delete('{product}', DeleteProductController::class)->name('delete');
     });
