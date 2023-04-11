@@ -26,6 +26,6 @@ final class LoginController extends Controller
             ]);
         }
 
-        return response()->json($user->createToken($user->name)->plainTextToken);
+        return response()->json(['token' => $user->createToken($user->email)->plainTextToken]);
     }
 }
