@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('ref');
+            $table->string('ref')->unique();
             $table->integer('vat');
             $table->integer('price_excluding_vat');
             $table->integer('price');
