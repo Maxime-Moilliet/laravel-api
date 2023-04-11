@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 final class ProductFactory extends Factory
 {
-
     use CalculatePriceTrait;
 
     public function definition(): array

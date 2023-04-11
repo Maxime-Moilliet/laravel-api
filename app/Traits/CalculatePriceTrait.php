@@ -9,8 +9,7 @@ trait CalculatePriceTrait
     public function calculatePrice(
         int $priceExcludingVat,
         int $vat,
-    ): int
-    {
+    ): int {
         return intval($priceExcludingVat + ($priceExcludingVat * ($vat / 100)));
     }
 }
