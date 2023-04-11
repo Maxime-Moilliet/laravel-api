@@ -19,6 +19,7 @@
             "allow_single_line_empty_anonymous_classes": true,
             "allow_single_line_anonymous_functions": false
         },
+        "not_operator_with_successor_space": false,
         "explicit_string_variable": true,
         "global_namespace_import": {
             "import_classes": true,
