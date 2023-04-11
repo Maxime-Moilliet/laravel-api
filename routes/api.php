@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Product\IndexProductController;
 use App\Http\Controllers\Api\Product\ShowProductController;
 use App\Http\Controllers\Api\Product\StoreProductController;
+use App\Http\Controllers\Api\Product\UpdateProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,5 @@ Route::prefix('products')
         Route::get('/', IndexProductController::class)->name('index');
         Route::get('{product}', ShowProductController::class)->name('show');
         Route::post('/', StoreProductController::class)->name('store');
+        Route::put('{product}', UpdateProductController::class)->name('update');
     });

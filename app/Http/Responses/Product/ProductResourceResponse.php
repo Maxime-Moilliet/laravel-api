@@ -7,13 +7,12 @@ namespace App\Http\Responses\Product;
 use App\Http\Resources\Product\ProductResource;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
-final class StoreProductResponse implements Responsable
+final class ProductResourceResponse implements Responsable
 {
     public function __construct(
         private readonly ProductResource $productResource,
-        private readonly int $status = Response::HTTP_CREATED,
+        private readonly int $status,
     ) {
     }
 
