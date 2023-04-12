@@ -35,7 +35,7 @@ it('should update customer', function () {
     assertDatabaseHas(table: Customer::class, data: $newCustomer);
 });
 
-it('should be return 404 if customer not exist', function () {
+it('should be return 404 if customer not found', function () {
     $name = fake()->words(3, true);
     $email = fake()->email;
     $note = fake()->paragraphs(rand(1, 3), true);

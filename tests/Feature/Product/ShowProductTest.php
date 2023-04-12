@@ -24,7 +24,7 @@ it('should see product detail', function () {
         ]]);
 });
 
-it('should be return 404 error if product not exist', function () {
+it('should be return 404 error if product not found', function () {
     userLogin()->get(uri: route('products.show', 1))
         ->assertStatus(status: 404);
 });

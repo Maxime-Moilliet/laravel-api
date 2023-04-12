@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Customer\DeleteCustomerController;
 use App\Http\Controllers\Api\Customer\IndexCustomerController;
 use App\Http\Controllers\Api\Customer\ShowCustomerController;
 use App\Http\Controllers\Api\Customer\StoreCustomerController;
@@ -51,4 +52,5 @@ Route::prefix('customers')
         Route::get('{customer}', ShowCustomerController::class)->name('show');
         Route::post('/', StoreCustomerController::class)->name('store');
         Route::put('{customer}', UpdateCustomerController::class)->name('update');
+        Route::delete('{customer}', DeleteCustomerController::class)->name('delete');
     });

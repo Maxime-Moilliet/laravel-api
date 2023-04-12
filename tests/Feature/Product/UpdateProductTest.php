@@ -134,7 +134,7 @@ it('should be return an error if price excluding vat is not integer', function (
         ->assertSessionHasErrors(keys: ['price_excluding_vat']);
 });
 
-it('should be return an error if product ref exist', function () {
+it('should be return an error if product ref already exist', function () {
     $products = Product::factory(2)->create();
 
     assertDatabaseCount(table: Product::class, count: 2);
