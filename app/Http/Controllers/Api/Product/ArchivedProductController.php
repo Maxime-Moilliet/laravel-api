@@ -18,7 +18,7 @@ final class ArchivedProductController extends Controller
 
         return new ProductResourceResponse(
             productResource: new ProductResource($product),
-            status: Response::HTTP_OK
+            status: Response::HTTP_OK,
         );
     }
 }
