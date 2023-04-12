@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Customer\IndexCustomerController;
 use App\Http\Controllers\Api\Customer\ShowCustomerController;
+use App\Http\Controllers\Api\Customer\StoreCustomerController;
 use App\Http\Controllers\Api\Product\ArchivedProductController;
 use App\Http\Controllers\Api\Product\DeleteProductController;
 use App\Http\Controllers\Api\Product\IndexProductController;
@@ -47,4 +48,5 @@ Route::prefix('customers')
     ->group(static function (): void {
         Route::get('/', IndexCustomerController::class)->name('index');
         Route::get('{customer}', ShowCustomerController::class)->name('show');
+        Route::post('/', StoreCustomerController::class)->name('store');
     });
