@@ -26,7 +26,7 @@ it('should be return list of products page 1', function () {
 
     userLogin()->get(uri: '/api/products')
         ->assertStatus(status: 200)
-        ->assertExactJson([
+        ->assertExactJson(data: [
             'data' => array_splice($productList, 0, 10),
             'links' => [
                 'first' => 'http://localhost/api/products?page=1',
@@ -88,7 +88,7 @@ it('should be return list of products page 2', function () {
 
     userLogin()->get(uri: '/api/products?page=2')
         ->assertStatus(status: 200)
-        ->assertExactJson([
+        ->assertExactJson(data: [
             'data' => array_splice($productList, 10, 20),
             'links' => [
                 'first' => 'http://localhost/api/products?page=1',
@@ -133,5 +133,5 @@ it('should be return list of products page 2', function () {
 it('should be return 302 if user is not auth', function () {
     get(uri: '/api/products')
         ->assertStatus(status: 302)
-        ->assertLocation('/api/login');
+        ->assertLocation(uri: '/api/login');
 });

@@ -32,5 +32,5 @@ it('should be return 404 error if product not exist', function () {
 it('should be return 302 if user is not auth', function () {
     get(uri: '/api/products/1')
         ->assertStatus(status: 302)
-        ->assertLocation('/api/login');
+        ->assertLocation(uri: '/api/login');
 });
