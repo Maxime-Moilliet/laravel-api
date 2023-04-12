@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Customer\IndexCustomerController;
 use App\Http\Controllers\Api\Customer\ShowCustomerController;
 use App\Http\Controllers\Api\Product\ArchivedProductController;
 use App\Http\Controllers\Api\Product\DeleteProductController;
@@ -44,5 +45,6 @@ Route::prefix('customers')
     ->as('customers.')
     ->middleware('auth:sanctum')
     ->group(static function (): void {
+        Route::get('/', IndexCustomerController::class)->name('index');
         Route::get('{customer}', ShowCustomerController::class)->name('show');
     });
