@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Customer\ShowCustomerController;
 use App\Http\Controllers\Api\Product\ArchivedProductController;
 use App\Http\Controllers\Api\Product\DeleteProductController;
 use App\Http\Controllers\Api\Product\IndexProductController;
@@ -37,4 +38,11 @@ Route::prefix('products')
         Route::put('{product}', UpdateProductController::class)->name('update');
         Route::delete('{product}', DeleteProductController::class)->name('delete');
         Route::put('{product}/archived', ArchivedProductController::class)->name('archived');
+    });
+
+Route::prefix('customers')
+    ->as('customers.')
+    ->middleware('auth:sanctum')
+    ->group(static function (): void {
+        Route::get('{customer}', ShowCustomerController::class)->name('show');
     });
