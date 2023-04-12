@@ -43,7 +43,7 @@ it('should update product', function () {
 it('should be return an error if product not found', function () {
     userLogin()->put(uri: '/api/products/1', data: [
         'name' => fake()->words(3, true),
-        'ref' => 'ref_' . fake()->uuid,
+        'ref' => 'ref_'.fake()->uuid,
         'vat' => 15,
         'price_excluding_vat' => 10000,
     ])
