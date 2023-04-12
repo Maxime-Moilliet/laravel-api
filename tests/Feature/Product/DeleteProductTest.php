@@ -15,7 +15,7 @@ it('should be delete product', function () {
     assertDatabaseCount(table: Product::class, count: 1);
     assertModelExists($product);
 
-    userLogin()->delete('/api/products/'.$product->id)
+    userLogin()->delete(uri: route('products.delete', $product->id))
         ->assertStatus(204);
 
     assertDatabaseCount(table: Product::class, count: 0);
@@ -23,12 +23,14 @@ it('should be delete product', function () {
 });
 
 it('should be return 404 if product not found', function () {
-    userLogin()->delete('/api/products/1')
+    userLogin()->delete(uri: route('products.delete', 1))
         ->assertStatus(404);
 });
 
 it('should be return 302 if user is not auth', function () {
-    delete(uri: '/api/products/1')
+    $product = Product::factory()->create();
+
+    delete(uri: route('products.delete', $product->id))
         ->assertStatus(status: 302)
-        ->assertLocation(uri: '/api/login');
+        ->assertLocation(uri: route('login'));
 });

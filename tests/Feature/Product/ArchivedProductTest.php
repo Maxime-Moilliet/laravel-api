@@ -26,7 +26,7 @@ it('should be archived product', function () {
         'updated_at' => $product->updated_at,
     ];
 
-    userLogin()->put(uri: '/api/products/'.$product->id.'/archived')
+    userLogin()->put(uri: route('products.archived', $product->id))
         ->assertStatus(status: 200)
         ->assertExactJson(data: [
             'data' => $productArchived,
@@ -38,12 +38,14 @@ it('should be archived product', function () {
 });
 
 it('should be return 404 if product not found', function () {
-    userLogin()->put(uri: '/api/products/1/archived')
+    userLogin()->put(uri: route('products.archived', 1))
         ->assertStatus(status: 404);
 });
 
 it('should be return 302 if user is not auth', function () {
-    put(uri: '/api/products/1/archived')
+    $product = Product::factory()->create(['is_archived' => false]);
+
+    put(uri: route('products.archived', $product->id))
         ->assertStatus(status: 302)
-        ->assertLocation('/api/login');
+        ->assertLocation(uri: route('login'));
 });

@@ -9,7 +9,7 @@ use function Pest\Laravel\post;
 it('should be login user', function () {
     $user = User::factory()->create();
 
-    post(uri: '/api/login', data: [
+    post(uri: route('login'), data: [
         'email' => $user->email,
         'password' => 'password',
     ])
@@ -17,7 +17,7 @@ it('should be login user', function () {
 });
 
 it('should be return an error if email is empty', function () {
-    post(uri: '/api/login', data: [
+    post(uri: route('login'), data: [
         'email' => '',
         'password' => 'password',
     ])
@@ -25,7 +25,7 @@ it('should be return an error if email is empty', function () {
 });
 
 it('should be return an error if email is not an email', function () {
-    post(uri: '/api/login', data: [
+    post(uri: route('login'), data: [
         'email' => 'user.com',
         'password' => 'password',
     ])
@@ -35,7 +35,7 @@ it('should be return an error if email is not an email', function () {
 it('should be return an error if password is empty', function () {
     $user = User::factory()->create();
 
-    post(uri: '/api/login', data: [
+    post(uri: route('login'), data: [
         'email' => $user->email,
         'password' => '',
     ])
@@ -45,7 +45,7 @@ it('should be return an error if password is empty', function () {
 it('should be return an error if email is not equal to user email', function () {
     User::factory()->create();
 
-    post(uri: '/api/login', data: [
+    post(uri: route('login'), data: [
         'email' => 'user@user.com',
         'password' => 'password',
     ])
@@ -55,7 +55,7 @@ it('should be return an error if email is not equal to user email', function () 
 it('should be return an error if password is not equal to user password', function () {
     $user = User::factory()->create();
 
-    post(uri: '/api/login', data: [
+    post(uri: route('login'), data: [
         'email' => $user->email,
         'password' => 'pass',
     ])

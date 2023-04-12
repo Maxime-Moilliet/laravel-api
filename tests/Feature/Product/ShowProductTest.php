@@ -9,7 +9,7 @@ use function Pest\Laravel\get;
 it('should see product detail', function () {
     $product = Product::factory()->create();
 
-    userLogin()->get(uri: '/api/products/'.$product->id)
+    userLogin()->get(uri: route('products.show', $product->id))
         ->assertStatus(status: 200)
         ->assertExactJson(data: ['data' => [
             'id' => $product->id,
@@ -25,12 +25,14 @@ it('should see product detail', function () {
 });
 
 it('should be return 404 error if product not exist', function () {
-    userLogin()->get(uri: '/api/products/1')
+    userLogin()->get(uri: route('products.show', 1))
         ->assertStatus(status: 404);
 });
 
 it('should be return 302 if user is not auth', function () {
-    get(uri: '/api/products/1')
+    $product = Product::factory()->create();
+
+    get(uri: route('products.show', $product->id))
         ->assertStatus(status: 302)
-        ->assertLocation(uri: '/api/login');
+        ->assertLocation(uri: route('login'));
 });

@@ -24,7 +24,7 @@ it('should store new product', function () {
         'is_archived' => false,
     ];
 
-    userLogin()->post(uri: '/api/products', data: [
+    userLogin()->post(uri: route('products.store'), data: [
         'name' => $name,
         'ref' => $ref,
         'vat' => 15,
@@ -38,7 +38,7 @@ it('should store new product', function () {
 });
 
 it('should be return an error if name is empty', function () {
-    userLogin()->post(uri: '/api/products', data: [
+    userLogin()->post(uri: route('products.store'), data: [
         'name' => '',
         'ref' => 'ref_'.fake()->uuid,
         'vat' => 15,
@@ -50,7 +50,7 @@ it('should be return an error if name is empty', function () {
 });
 
 it('should be return an error if ref is empty', function () {
-    userLogin()->post(uri: '/api/products', data: [
+    userLogin()->post(uri: route('products.store'), data: [
         'name' => fake()->words(3, true),
         'ref' => '',
         'vat' => 15,
@@ -62,7 +62,7 @@ it('should be return an error if ref is empty', function () {
 });
 
 it('should be return an error if vat is empty', function () {
-    userLogin()->post(uri: '/api/products', data: [
+    userLogin()->post(uri: route('products.store'), data: [
         'name' => fake()->words(3, true),
         'ref' => 'ref_'.fake()->uuid,
         'vat' => null,
@@ -74,7 +74,7 @@ it('should be return an error if vat is empty', function () {
 });
 
 it('should be return an error if vat is not integer', function () {
-    userLogin()->post(uri: '/api/products', data: [
+    userLogin()->post(uri: route('products.store'), data: [
         'name' => fake()->words(3, true),
         'ref' => 'ref_'.fake()->uuid,
         'vat' => 'not_integer',
@@ -86,7 +86,7 @@ it('should be return an error if vat is not integer', function () {
 });
 
 it('should be return an error if price excluding vat is empty', function () {
-    userLogin()->post(uri: '/api/products', data: [
+    userLogin()->post(uri: route('products.store'), data: [
         'name' => fake()->words(3, true),
         'ref' => 'ref_'.fake()->uuid,
         'vat' => 20,
@@ -98,7 +98,7 @@ it('should be return an error if price excluding vat is empty', function () {
 });
 
 it('should be return an error if price excluding vat is not integer', function () {
-    userLogin()->post(uri: '/api/products', data: [
+    userLogin()->post(uri: route('products.store'), data: [
         'name' => fake()->words(3, true),
         'ref' => 'ref_'.fake()->uuid,
         'vat' => 20,
@@ -114,7 +114,7 @@ it('should be return an error if product ref exist', function () {
 
     assertDatabaseCount(table: Product::class, count: 1);
 
-    userLogin()->post(uri: '/api/products', data: [
+    userLogin()->post(uri: route('products.store'), data: [
         'name' => fake()->words(3, true),
         'ref' => $product->ref,
         'vat' => 15,
@@ -129,12 +129,12 @@ it('should be return 302 if user is not auth', function () {
     $name = fake()->words(3, true);
     $ref = 'ref_'.fake()->uuid;
 
-    post(uri: '/api/products', data: [
+    post(uri: route('products.store'), data: [
         'name' => $name,
         'ref' => $ref,
         'vat' => 15,
         'price_excluding_vat' => 10000,
     ])
         ->assertStatus(status: 302)
-        ->assertLocation(uri: '/api/login');
+        ->assertLocation(uri: route('login'));
 });
