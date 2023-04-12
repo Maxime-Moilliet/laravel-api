@@ -26,7 +26,7 @@ it('should be archived product', function () {
         'updated_at' => $product->updated_at,
     ];
 
-    userLogin()->put(uri: '/api/products/' . $product->id . '/archived')
+    userLogin()->put(uri: '/api/products/'.$product->id.'/archived')
         ->assertStatus(status: 200)
         ->assertExactJson(data: [
             'data' => $productArchived,

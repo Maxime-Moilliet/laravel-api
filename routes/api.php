@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Product\ArchivedProductController;
 use App\Http\Controllers\Api\Product\DeleteProductController;
 use App\Http\Controllers\Api\Product\IndexProductController;
 use App\Http\Controllers\Api\Product\ShowProductController;
 use App\Http\Controllers\Api\Product\StoreProductController;
 use App\Http\Controllers\Api\Product\UpdateProductController;
-use App\Http\Controllers\Api\Product\ArchivedProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
