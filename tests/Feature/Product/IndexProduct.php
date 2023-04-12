@@ -32,7 +32,7 @@ it('should be return list of products page 1', function () {
                 'first' => 'http://localhost/api/products?page=1',
                 'last' => 'http://localhost/api/products?page=2',
                 'prev' => null,
-                'next' => 'http://localhost/api/products?page=2'
+                'next' => 'http://localhost/api/products?page=2',
             ],
             'meta' => [
                 'current_page' => 1,
@@ -42,28 +42,28 @@ it('should be return list of products page 1', function () {
                     [
                         'url' => null,
                         'label' => '&laquo; Previous',
-                        'active' => false
+                        'active' => false,
                     ],
                     [
                         'url' => 'http://localhost/api/products?page=1',
                         'label' => '1',
-                        'active' => true
+                        'active' => true,
                     ],
                     [
                         'url' => 'http://localhost/api/products?page=2',
                         'label' => '2',
-                        'active' => false
+                        'active' => false,
                     ],
                     [
                         'url' => 'http://localhost/api/products?page=2',
                         'label' => 'Next &raquo;',
-                        'active' => false
-                    ]
+                        'active' => false,
+                    ],
                 ],
                 'path' => 'http://localhost/api/products',
                 'per_page' => 10,
                 'to' => 10,
-                'total' => 20
+                'total' => 20,
             ],
         ]);
 });
@@ -98,34 +98,34 @@ it('should be return list of products page 2', function () {
             ],
             'meta' => [
                 'current_page' => 2,
-                'from' => 11 ,
+                'from' => 11,
                 'last_page' => 2,
                 'links' => [
                     [
                         'url' => 'http://localhost/api/products?page=1',
                         'label' => '&laquo; Previous',
-                        'active' => false
+                        'active' => false,
                     ],
                     [
                         'url' => 'http://localhost/api/products?page=1',
                         'label' => '1',
-                        'active' => false
+                        'active' => false,
                     ],
                     [
                         'url' => 'http://localhost/api/products?page=2',
                         'label' => '2',
-                        'active' => true
+                        'active' => true,
                     ],
                     [
                         'url' => null,
                         'label' => 'Next &raquo;',
-                        'active' => false
-                    ]
+                        'active' => false,
+                    ],
                 ],
                 'path' => 'http://localhost/api/products',
                 'per_page' => 10,
                 'to' => 20,
-                'total' => 20
+                'total' => 20,
             ],
         ]);
 });
