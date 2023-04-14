@@ -6,17 +6,12 @@ namespace App\Http\Controllers\Api\Product;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Product\ProductResource;
-use App\Http\Responses\Product\ProductResourceResponse;
 use App\Models\Product;
-use Symfony\Component\HttpFoundation\Response;
 
 final class ShowProductController extends Controller
 {
-    public function __invoke(Product $product): ProductResourceResponse
+    public function __invoke(Product $product): ProductResource
     {
-        return new ProductResourceResponse(
-            productResource: new ProductResource($product),
-            status: Response::HTTP_OK,
-        );
+        return new ProductResource($product);
     }
 }

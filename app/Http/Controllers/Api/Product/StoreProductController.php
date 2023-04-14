@@ -4,25 +4,35 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Product;
 
-use App\Actions\Product\StoreOrUpdateProductAction;
-use App\Dto\Product\ProductDto;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product\StoreOrUpdateProductRequest;
+use App\Http\Requests\Product\ProductRequest;
 use App\Http\Resources\Product\ProductResource;
-use App\Http\Responses\Product\ProductResourceResponse;
+use App\Models\Product;
+use App\Traits\CalculatePriceTrait;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 final class StoreProductController extends Controller
 {
-    public function __invoke(StoreOrUpdateProductRequest $request): ProductResourceResponse
+    use CalculatePriceTrait;
+
+    public function __invoke(ProductRequest $request): JsonResponse
     {
-        $dto = ProductDto::make(request: $request);
+        /** @var array<string, mixed> $attributes */
+        $attributes = $request->validated();
 
-        $product = (new StoreOrUpdateProductAction)->handle(...$dto->toArray());
+        /** @var int $priceExcludingVat */
+        $priceExcludingVat = $request->get('price_excluding_vat');
+        /** @var int $vat */
+        $vat = $request->get('vat');
 
-        return new ProductResourceResponse(
-            productResource: new ProductResource($product),
-            status: Response::HTTP_CREATED,
-        );
+        $product = Product::create([...$attributes,
+            'price' => $this->calculatePrice(priceExcludingVat: $priceExcludingVat, vat: $vat),
+            'is_archived' => false,
+        ]);
+
+        return (new ProductResource($product))
+            ->response()
+            ->setStatusCode(code: Response::HTTP_CREATED);
     }
 }

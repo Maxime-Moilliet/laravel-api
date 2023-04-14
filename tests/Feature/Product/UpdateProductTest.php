@@ -23,10 +23,9 @@ it('should update product', function () {
         'vat' => 15,
         'price_excluding_vat' => 10000,
         'price' => 11500,
-        'is_archived' => false,
     ];
 
-    userLogin()->put(uri: route('products.update', $product->id), data: [
+    userLogin()->put(uri: route('products.update', $product), data: [
         'name' => $name,
         'ref' => $ref,
         'vat' => 15,
@@ -55,7 +54,7 @@ it('should be return an error if name is empty', function () {
 
     assertDatabaseCount(table: Product::class, count: 1);
 
-    userLogin()->put(uri: route('products.update', $product->id), data: [
+    userLogin()->put(uri: route('products.update', $product), data: [
         'name' => '',
         'ref' => 'ref_'.fake()->uuid,
         'vat' => 15,
@@ -69,7 +68,7 @@ it('should be return an error if ref is empty', function () {
 
     assertDatabaseCount(table: Product::class, count: 1);
 
-    userLogin()->put(uri: route('products.update', $product->id), data: [
+    userLogin()->put(uri: route('products.update', $product), data: [
         'name' => fake()->words(3, true),
         'ref' => '',
         'vat' => 15,
@@ -83,7 +82,7 @@ it('should be return an error if vat is empty', function () {
 
     assertDatabaseCount(table: Product::class, count: 1);
 
-    userLogin()->put(uri: route('products.update', $product->id), data: [
+    userLogin()->put(uri: route('products.update', $product), data: [
         'name' => fake()->words(3, true),
         'ref' => 'ref_'.fake()->uuid,
         'vat' => null,
@@ -97,7 +96,7 @@ it('should be return an error if vat is not integer', function () {
 
     assertDatabaseCount(table: Product::class, count: 1);
 
-    userLogin()->put(uri: route('products.update', $product->id), data: [
+    userLogin()->put(uri: route('products.update', $product), data: [
         'name' => fake()->words(3, true),
         'ref' => 'ref_'.fake()->uuid,
         'vat' => 'not_integer',
@@ -111,7 +110,7 @@ it('should be return an error if price excluding vat is empty', function () {
 
     assertDatabaseCount(table: Product::class, count: 1);
 
-    userLogin()->put(uri: route('products.update', $product->id), data: [
+    userLogin()->put(uri: route('products.update', $product), data: [
         'name' => fake()->words(3, true),
         'ref' => 'ref_'.fake()->uuid,
         'vat' => 15,
@@ -125,7 +124,7 @@ it('should be return an error if price excluding vat is not integer', function (
 
     assertDatabaseCount(table: Product::class, count: 1);
 
-    userLogin()->put(uri: route('products.update', $product->id), data: [
+    userLogin()->put(uri: route('products.update', $product), data: [
         'name' => fake()->words(3, true),
         'ref' => 'ref_'.fake()->uuid,
         'vat' => 15,
@@ -139,7 +138,7 @@ it('should be return an error if product ref already exist', function () {
 
     assertDatabaseCount(table: Product::class, count: 2);
 
-    userLogin()->put(uri: route('products.update', $products->first()->id), data: [
+    userLogin()->put(uri: route('products.update', $products->first()), data: [
         'name' => fake()->words(3, true),
         'ref' => $products->last()->ref ?? '',
         'vat' => 15,
@@ -162,10 +161,9 @@ it('should be update product if ref is same ref', function () {
         'vat' => 15,
         'price_excluding_vat' => 10000,
         'price' => 11500,
-        'is_archived' => false,
     ];
 
-    userLogin()->put(uri: route('products.update', $products->first()->id), data: [
+    userLogin()->put(uri: route('products.update', $products->first()), data: [
         'name' => $name,
         'ref' => $ref,
         'vat' => 15,
@@ -184,7 +182,7 @@ it('should be return 302 if user is not auth', function () {
 
     assertDatabaseCount(table: Product::class, count: 1);
 
-    put(uri: route('products.update', $product->id), data: [
+    put(uri: route('products.update', $product), data: [
         'name' => fake()->words(3, true),
         'ref' => 'ref_'.fake()->uuid,
         'vat' => 15,

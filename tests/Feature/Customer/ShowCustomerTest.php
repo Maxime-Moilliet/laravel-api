@@ -9,7 +9,7 @@ use function Pest\Laravel\get;
 it('should see customer', function () {
     $customer = Customer::factory()->create();
 
-    userLogin()->get(uri: route('customers.show', $customer->id))
+    userLogin()->get(uri: route('customers.show', $customer))
         ->assertStatus(status: 200)
         ->assertExactJson(data: [
             'data' => [
@@ -32,7 +32,7 @@ it('should be return 404 if customer not found', function () {
 it('should be return 302 if user is not auth', function () {
     $customer = Customer::factory()->create();
 
-    get(uri: route('customers.show', $customer->id))
+    get(uri: route('customers.show', $customer))
         ->assertStatus(status: 302)
         ->assertLocation(uri: route('login'));
 });

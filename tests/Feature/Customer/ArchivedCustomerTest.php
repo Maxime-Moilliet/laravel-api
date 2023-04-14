@@ -24,7 +24,7 @@ it('should be archived customer', function () {
         'updated_at' => $customer->updated_at,
     ];
 
-    userLogin()->put(uri: route('customers.archived', $customer->id))
+    userLogin()->put(uri: route('customers.archived', $customer))
         ->assertStatus(status: 200)
         ->assertExactJson(data: [
             'data' => $customerArchived,
@@ -43,7 +43,7 @@ it('should be return 404 if product not found', function () {
 it('should be return 302 if user is not auth', function () {
     $customer = Customer::factory()->create(['is_archived' => false]);
 
-    put(uri: route('customers.archived', $customer->id))
+    put(uri: route('customers.archived', $customer))
         ->assertStatus(status: 302)
         ->assertLocation(uri: route('login'));
 });

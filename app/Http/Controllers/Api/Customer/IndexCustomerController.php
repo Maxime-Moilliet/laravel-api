@@ -6,17 +6,12 @@ namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Customer\CustomerCollection;
-use App\Http\Responses\Customer\CustomerCollectionResponse;
 use App\Models\Customer;
-use Symfony\Component\HttpFoundation\Response;
 
 final class IndexCustomerController extends Controller
 {
-    public function __invoke(): CustomerCollectionResponse
+    public function __invoke(): CustomerCollection
     {
-        return new CustomerCollectionResponse(
-            customerCollection: new CustomerCollection(Customer::paginate(10)),
-            status: Response::HTTP_OK
-        );
+        return new CustomerCollection(Customer::paginate(10));
     }
 }

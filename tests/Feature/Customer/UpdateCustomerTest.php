@@ -22,7 +22,7 @@ it('should update customer', function () {
         'note' => $note,
     ];
 
-    userLogin()->put(uri: route('customers.update', $customer->id), data: [
+    userLogin()->put(uri: route('customers.update', $customer), data: [
         'name' => $name,
         'email' => $email,
         'note' => $note,
@@ -51,7 +51,7 @@ it('should be return 404 if customer not found', function () {
 it('should be return an error if name is empty', function () {
     $customer = Customer::factory()->create();
 
-    userLogin()->put(uri: route('customers.update', $customer->id), data: [
+    userLogin()->put(uri: route('customers.update', $customer), data: [
         'name' => '',
         'email' => fake()->email,
         'note' => fake()->paragraphs(rand(1, 3), true),
@@ -62,7 +62,7 @@ it('should be return an error if name is empty', function () {
 it('should be return an error if email is empty', function () {
     $customer = Customer::factory()->create();
 
-    userLogin()->put(uri: route('customers.update', $customer->id), data: [
+    userLogin()->put(uri: route('customers.update', $customer), data: [
         'name' => fake()->words(3, true),
         'email' => '',
         'note' => fake()->paragraphs(rand(1, 3), true),
@@ -73,7 +73,7 @@ it('should be return an error if email is empty', function () {
 it('should be return an error if email is not an email', function () {
     $customer = Customer::factory()->create();
 
-    userLogin()->put(uri: route('customers.update', $customer->id), data: [
+    userLogin()->put(uri: route('customers.update', $customer), data: [
         'name' => fake()->words(3, true),
         'email' => fake()->words(3, true),
         'note' => fake()->paragraphs(rand(1, 3), true),
@@ -84,7 +84,7 @@ it('should be return an error if email is not an email', function () {
 it('should be return an error if note is empty', function () {
     $customer = Customer::factory()->create();
 
-    userLogin()->put(uri: route('customers.update', $customer->id), data: [
+    userLogin()->put(uri: route('customers.update', $customer), data: [
         'name' => fake()->words(3, true),
         'email' => fake()->email,
         'note' => '',
@@ -95,7 +95,7 @@ it('should be return an error if note is empty', function () {
 it('should be return 302 if user is not auth', function () {
     $customer = Customer::factory()->create();
 
-    put(uri: route('customers.update', $customer->id), data: [
+    put(uri: route('customers.update', $customer), data: [
         'name' => fake()->words(3, true),
         'email' => fake()->email,
         'note' => fake()->paragraphs(rand(1, 3), true),

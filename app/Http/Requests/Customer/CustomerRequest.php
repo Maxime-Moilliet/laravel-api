@@ -6,7 +6,7 @@ namespace App\Http\Requests\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-final class StoreOrUpdateCustomerRequest extends FormRequest
+final class CustomerRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,14 +14,14 @@ final class StoreOrUpdateCustomerRequest extends FormRequest
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, array<string|mixed>>
      */
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'email' => 'required|email',
-            'note' => 'required',
+            'name' => ['required'],
+            'email' => ['required', 'email'],
+            'note' => ['required'],
         ];
     }
 }

@@ -4,25 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Customer;
 
-use App\Actions\Customer\StoreOrUpdateCustomerAction;
-use App\Dto\Customer\CustomerDto;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Customer\StoreOrUpdateCustomerRequest;
+use App\Http\Requests\Customer\CustomerRequest;
 use App\Http\Resources\Customer\CustomerResource;
-use App\Http\Responses\Customer\CustomerResourceResponse;
+use App\Models\Customer;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 final class StoreCustomerController extends Controller
 {
-    public function __invoke(StoreOrUpdateCustomerRequest $request): CustomerResourceResponse
+    public function __invoke(CustomerRequest $request): JsonResponse
     {
-        $dto = CustomerDto::make(request: $request);
+        /** @var array<string, mixed> $attributes */
+        $attributes = $request->validated();
 
-        $customer = (new StoreOrUpdateCustomerAction)->handle(...$dto->toArray());
+        $customer = Customer::create([...$attributes, 'is_archived' => false]);
 
-        return new CustomerResourceResponse(
-            customerResource: new CustomerResource($customer),
-            status: Response::HTTP_CREATED,
-        );
+        return (new CustomerResource($customer))
+            ->response()
+            ->setStatusCode(code: Response::HTTP_CREATED);
     }
 }

@@ -15,7 +15,7 @@ it('should be delete customer', function () {
     assertDatabaseCount(table: Customer::class, count: 1);
     assertModelExists($customer);
 
-    userLogin()->delete(uri: route('customers.delete', $customer->id))
+    userLogin()->delete(uri: route('customers.delete', $customer))
         ->assertStatus(status: 204);
 
     assertDatabaseCount(table: Customer::class, count: 0);
@@ -30,7 +30,7 @@ it('should be return 404 if customer not found', function () {
 it('should be return 302 if user is not auth', function () {
     $customer = Customer::factory()->create();
 
-    delete(uri: route('customers.delete', $customer->id))
+    delete(uri: route('customers.delete', $customer))
         ->assertStatus(status: 302)
         ->assertLocation(uri: route('login'));
 });

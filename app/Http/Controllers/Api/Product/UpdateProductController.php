@@ -4,26 +4,30 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Product;
 
-use App\Actions\Product\StoreOrUpdateProductAction;
-use App\Dto\Product\ProductDto;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product\StoreOrUpdateProductRequest;
+use App\Http\Requests\Product\ProductRequest;
 use App\Http\Resources\Product\ProductResource;
-use App\Http\Responses\Product\ProductResourceResponse;
 use App\Models\Product;
-use Symfony\Component\HttpFoundation\Response;
+use App\Traits\CalculatePriceTrait;
 
 final class UpdateProductController extends Controller
 {
-    public function __invoke(StoreOrUpdateProductRequest $request, Product $product): ProductResourceResponse
+    use CalculatePriceTrait;
+
+    public function __invoke(ProductRequest $request, Product $product): ProductResource
     {
-        $dto = ProductDto::make(request: $request);
+        /** @var array<string, mixed> $attributes */
+        $attributes = $request->validated();
 
-        $product = (new StoreOrUpdateProductAction($product->id))->handle(...$dto->toArray());
+        /** @var int $priceExcludingVat */
+        $priceExcludingVat = $request->get('price_excluding_vat');
+        /** @var int $vat */
+        $vat = $request->get('vat');
 
-        return new ProductResourceResponse(
-            productResource: new ProductResource($product),
-            status: Response::HTTP_OK,
-        );
+        $product->update([...$attributes,
+            'price' => $this->calculatePrice(priceExcludingVat: $priceExcludingVat, vat: $vat),
+        ]);
+
+        return new ProductResource($product);
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\Auth;
 
-use App\Dto\Auth\LoginDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
@@ -16,11 +15,12 @@ final class LoginController extends Controller
 {
     public function __invoke(LoginRequest $request): JsonResponse
     {
-        $dto = LoginDto::make(request: $request);
+        $user = User::query()->where('email', $request->get('email'))->first();
 
-        $user = User::query()->where('email', $dto->email)->first();
+        /** @var string $password */
+        $password = $request->get('password');
 
-        if (!$user || !Hash::check($dto->password, $user->password)) {
+        if (!$user || !Hash::check($password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);

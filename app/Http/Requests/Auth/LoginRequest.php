@@ -14,13 +14,13 @@ final class LoginRequest extends FormRequest
     }
 
     /**
-     * @return string[]
+     * @return array<string, array<string|mixed>>
      */
     public function rules(): array
     {
         return [
-            'email' => 'email|required',
-            'password' => 'required',
+            'email' => ['email', 'required'],
+            'password' => ['required'],
         ];
     }
 }

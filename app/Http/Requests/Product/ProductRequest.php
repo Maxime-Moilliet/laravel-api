@@ -7,7 +7,7 @@ namespace App\Http\Requests\Product;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-final class StoreOrUpdateProductRequest extends FormRequest
+final class ProductRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,15 +15,15 @@ final class StoreOrUpdateProductRequest extends FormRequest
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<string, array<string|mixed>>
      */
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => ['required'],
             'ref' => ['required', Rule::unique('products', 'ref')->ignore($this->product)],
-            'vat' => 'required|integer',
-            'price_excluding_vat' => 'required|integer',
+            'vat' => ['required', 'integer'],
+            'price_excluding_vat' => ['required', 'integer'],
         ];
     }
 }
