@@ -21,7 +21,7 @@ final class OrderFactory extends Factory
         return [
             'ref' => 'ref_'.$this->faker->uuid(),
             'price' => rand(1000, 50000),
-            'status' => OrderStatusEnum::INCOMPLETE
+            'status' => OrderStatusEnum::INCOMPLETE,
         ];
     }
 }

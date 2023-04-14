@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -23,4 +24,12 @@ class Product extends Model
     protected $casts = [
         'is_archived' => 'boolean',
     ];
+
+    /**
+     * @return BelongsToMany<Order>
+     */
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class);
+    }
 }

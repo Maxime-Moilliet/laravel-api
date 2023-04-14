@@ -18,7 +18,7 @@ final class ProductFactory extends Factory
     public function definition(): array
     {
         $vatArray = [10, 15, 20];
-        $vat = $vatArray[array_rand([10, 15, 20])];
+        $vat = $vatArray[array_rand($vatArray)];
         $priceExcludingVat = rand(1000, 10000);
         $price = $this->calculatePrice(priceExcludingVat: $priceExcludingVat, vat: $vat);
 

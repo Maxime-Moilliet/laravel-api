@@ -16,7 +16,7 @@ return new class extends Migration
             $table->enum('status', [
                 'incomplete',
                 'shipped',
-                'cancelled'
+                'cancelled',
             ])->default('incomplete');
             $table->foreignIdFor(Customer::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
