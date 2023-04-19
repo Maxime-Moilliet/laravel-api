@@ -12,11 +12,11 @@ class OrderProduct extends Pivot
         'vat',
         'price_excluding_vat',
         'price',
-        'quantity'
+        'quantity',
     ];
 
     protected $hidden = [
         'order_id',
-        'product_id'
+        'product_id',
     ];
 }

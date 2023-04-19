@@ -20,7 +20,7 @@ it('should be archived product', function () {
         'vat' => $product->vat,
         'price_excluding_vat' => $product->price_excluding_vat,
         'price' => $product->price,
-        'is_archived' => true
+        'is_archived' => true,
     ];
 
     userLogin()->put(uri: route('products.archived', $product))

@@ -34,7 +34,7 @@ final class StoreOrderController extends Controller
                 'price' => $product->price,
                 'vat' => $product->vat,
                 'price_excluding_vat' => $product->price_excluding_vat,
-                'quantity' => $item['quantity']
+                'quantity' => $item['quantity'],
             ];
         }
 

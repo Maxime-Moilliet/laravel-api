@@ -12,6 +12,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @mixin Product
+ *
  * @property OrderProduct $pivot
  */
 final class OrderProductResource extends JsonResource

@@ -16,7 +16,7 @@ it('should be create new order', function () {
     [$productOne, $productTwo] = Product::factory(2)->create();
     $quantityProductOne = rand(1, 4);
     $quantityProductTwo = rand(1, 4);
-    $ref = 'ref_' . fake()->uuid;
+    $ref = 'ref_'.fake()->uuid;
 
     userLogin()->post(uri: route('orders.store'), data: [
         'ref' => $ref,
@@ -29,8 +29,8 @@ it('should be create new order', function () {
             [
                 'product_id' => $productTwo->id,
                 'quantity' => $quantityProductTwo,
-            ]
-        ]
+            ],
+        ],
     ])
         ->assertStatus(status: Response::HTTP_CREATED)
         ->assertJson(value: [
@@ -38,8 +38,8 @@ it('should be create new order', function () {
                 'ref' => $ref,
                 'status' => 'incomplete', // OrderStatusEnum::INCOMPLETE
                 'price_excluding_vat' => ($productOne->price_excluding_vat * $quantityProductOne) + ($productTwo->price_excluding_vat * $quantityProductTwo),
-                'price' => ($productOne->price * $quantityProductOne) + ($productTwo->price * $quantityProductTwo)
-            ]
+                'price' => ($productOne->price * $quantityProductOne) + ($productTwo->price * $quantityProductTwo),
+            ],
         ]);
 
     assertDatabaseHas(table: 'orders', data: [
@@ -47,21 +47,21 @@ it('should be create new order', function () {
         'customer_id' => $customer->id,
         'status' => OrderStatusEnum::INCOMPLETE,
         'price_excluding_vat' => ($productOne->price_excluding_vat * $quantityProductOne) + ($productTwo->price_excluding_vat * $quantityProductTwo),
-        'price' => ($productOne->price * $quantityProductOne) + ($productTwo->price * $quantityProductTwo)
+        'price' => ($productOne->price * $quantityProductOne) + ($productTwo->price * $quantityProductTwo),
     ]);
     assertDatabaseHas(table: 'order_product', data: [
         'product_id' => $productOne->id,
         'vat' => $productOne->vat,
         'price_excluding_vat' => $productOne->price_excluding_vat,
         'price' => $productOne->price,
-        'quantity' => $quantityProductOne
+        'quantity' => $quantityProductOne,
     ]);
     assertDatabaseHas(table: 'order_product', data: [
         'product_id' => $productTwo->id,
         'vat' => $productTwo->vat,
         'price_excluding_vat' => $productTwo->price_excluding_vat,
         'price' => $productTwo->price,
-        'quantity' => $quantityProductTwo
+        'quantity' => $quantityProductTwo,
     ]);
 });
 
@@ -82,8 +82,8 @@ it('should be return an error if ref is empty', function () {
             [
                 'product_id' => $productTwo->id,
                 'quantity' => $quantityProductTwo,
-            ]
-        ]
+            ],
+        ],
     ])
         ->assertSessionHasErrors(keys: ['ref']);
 });
@@ -106,8 +106,8 @@ it('should be return an error if order ref already exist', function () {
             [
                 'product_id' => $productTwo->id,
                 'quantity' => $quantityProductTwo,
-            ]
-        ]
+            ],
+        ],
     ])
         ->assertSessionHasErrors(keys: ['ref']);
 });
@@ -116,7 +116,7 @@ it('should be return an error if customer_id is empty', function () {
     [$productOne, $productTwo] = Product::factory(2)->create();
     $quantityProductOne = rand(1, 4);
     $quantityProductTwo = rand(1, 4);
-    $ref = 'ref_' . fake()->uuid;
+    $ref = 'ref_'.fake()->uuid;
 
     userLogin()->post(uri: route('orders.store'), data: [
         'ref' => $ref,
@@ -129,8 +129,8 @@ it('should be return an error if customer_id is empty', function () {
             [
                 'product_id' => $productTwo->id,
                 'quantity' => $quantityProductTwo,
-            ]
-        ]
+            ],
+        ],
     ])
         ->assertSessionHasErrors(keys: ['customer_id']);
 });
@@ -139,7 +139,7 @@ it('should be return an error if customer with id not found', function () {
     [$productOne, $productTwo] = Product::factory(2)->create();
     $quantityProductOne = rand(1, 4);
     $quantityProductTwo = rand(1, 4);
-    $ref = 'ref_' . fake()->uuid;
+    $ref = 'ref_'.fake()->uuid;
 
     userLogin()->post(uri: route('orders.store'), data: [
         'ref' => $ref,
@@ -152,39 +152,39 @@ it('should be return an error if customer with id not found', function () {
             [
                 'product_id' => $productTwo->id,
                 'quantity' => $quantityProductTwo,
-            ]
-        ]
+            ],
+        ],
     ])
         ->assertSessionHasErrors(keys: ['customer_id']);
 });
 
 it('should be return an error if items is not an array', function () {
     $customer = Customer::factory()->create();
-    $ref = 'ref_' . fake()->uuid;
+    $ref = 'ref_'.fake()->uuid;
 
     userLogin()->post(uri: route('orders.store'), data: [
         'ref' => $ref,
         'customer_id' => $customer->id,
-        'items' => null
+        'items' => null,
     ])
         ->assertSessionHasErrors(keys: ['items']);
 });
 
 it('should be return an error if items is empty', function () {
     $customer = Customer::factory()->create();
-    $ref = 'ref_' . fake()->uuid;
+    $ref = 'ref_'.fake()->uuid;
 
     userLogin()->post(uri: route('orders.store'), data: [
         'ref' => $ref,
         'customer_id' => $customer->id,
-        'items' => []
+        'items' => [],
     ])
         ->assertSessionHasErrors(keys: ['items']);
 });
 
 it('should be return an error if items not have product_id', function () {
     $customer = Customer::factory()->create();
-    $ref = 'ref_' . fake()->uuid;
+    $ref = 'ref_'.fake()->uuid;
 
     userLogin()->post(uri: route('orders.store'), data: [
         'ref' => $ref,
@@ -192,17 +192,16 @@ it('should be return an error if items not have product_id', function () {
         'items' => [
             [
                 'product_id' => null,
-                'quantity' => 1
-            ]
-        ]
+                'quantity' => 1,
+            ],
+        ],
     ])
         ->assertSessionHasErrors(keys: ['items.0.product_id']);
 });
 
-
 it('should be return an error if items not have product_id valid', function () {
     $customer = Customer::factory()->create();
-    $ref = 'ref_' . fake()->uuid;
+    $ref = 'ref_'.fake()->uuid;
 
     userLogin()->post(uri: route('orders.store'), data: [
         'ref' => $ref,
@@ -210,16 +209,16 @@ it('should be return an error if items not have product_id valid', function () {
         'items' => [
             [
                 'product_id' => 12,
-                'quantity' => 1
-            ]
-        ]
+                'quantity' => 1,
+            ],
+        ],
     ])
         ->assertSessionHasErrors(keys: ['items.0.product_id']);
 });
 
 it('should be return an error if items not have quantity', function () {
     $customer = Customer::factory()->create();
-    $ref = 'ref_' . fake()->uuid;
+    $ref = 'ref_'.fake()->uuid;
 
     userLogin()->post(uri: route('orders.store'), data: [
         'ref' => $ref,
@@ -227,16 +226,16 @@ it('should be return an error if items not have quantity', function () {
         'items' => [
             [
                 'product_id' => 12,
-                'quantity' => null
-            ]
-        ]
+                'quantity' => null,
+            ],
+        ],
     ])
         ->assertSessionHasErrors(keys: ['items.0.quantity']);
 });
 
 it('should be return an error if items not have quantity greater than 0', function () {
     $customer = Customer::factory()->create();
-    $ref = 'ref_' . fake()->uuid;
+    $ref = 'ref_'.fake()->uuid;
 
     userLogin()->post(uri: route('orders.store'), data: [
         'ref' => $ref,
@@ -244,16 +243,16 @@ it('should be return an error if items not have quantity greater than 0', functi
         'items' => [
             [
                 'product_id' => 12,
-                'quantity' => -1
-            ]
-        ]
+                'quantity' => -1,
+            ],
+        ],
     ])
         ->assertSessionHasErrors(keys: ['items.0.quantity']);
 });
 
 it('should be return 302 if user is not auth', function () {
     $customer = Customer::factory()->create();
-    $ref = 'ref_' . fake()->uuid;
+    $ref = 'ref_'.fake()->uuid;
 
     post(uri: route('orders.store'), data: [
         'ref' => $ref,
@@ -261,9 +260,9 @@ it('should be return 302 if user is not auth', function () {
         'items' => [
             [
                 'product_id' => 12,
-                'quantity' => -1
-            ]
-        ]
+                'quantity' => -1,
+            ],
+        ],
     ])
         ->assertStatus(status: Response::HTTP_FOUND)
         ->assertLocation(uri: route('login'));

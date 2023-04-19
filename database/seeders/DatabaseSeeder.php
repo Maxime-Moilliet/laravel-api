@@ -24,7 +24,7 @@ final class DatabaseSeeder extends Seeder
             $orders = Order::factory(2)->create([
                 'customer_id' => $customer->id,
                 'price_excluding_vat' => 0,
-                'price' => 0
+                'price' => 0,
             ]);
 
             foreach ($orders as $order) {
@@ -37,7 +37,7 @@ final class DatabaseSeeder extends Seeder
                         'vat' => $product->vat,
                         'price_excluding_vat' => $product->price_excluding_vat,
                         'price' => $product->price,
-                        'quantity' => $quantity
+                        'quantity' => $quantity,
                     ]);
 
                     $order->update([
