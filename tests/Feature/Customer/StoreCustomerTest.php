@@ -3,14 +3,13 @@
 declare(strict_types=1);
 
 use App\Models\Customer;
+use Symfony\Component\HttpFoundation\Response;
 
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\post;
 
 it('should store new customer', function () {
-    assertDatabaseCount(table: Customer::class, count: 0);
-
     $name = fake()->words(3, true);
     $email = fake()->email;
     $note = fake()->paragraphs(rand(1, 3), true);
@@ -27,7 +26,7 @@ it('should store new customer', function () {
         'email' => $email,
         'note' => $note,
     ])
-        ->assertStatus(status: 201)
+        ->assertStatus(status: Response::HTTP_CREATED)
         ->assertJson(value: ['data' => $customer]);
 
     assertDatabaseCount(table: Customer::class, count: 1);
@@ -84,6 +83,6 @@ it('should be return 302 if user is not auth', function () {
         'email' => fake()->email,
         'note' => fake()->paragraphs(rand(1, 3), true),
     ])
-        ->assertStatus(status: 302)
+        ->assertStatus(status: Response::HTTP_FOUND)
         ->assertLocation(uri: route('login'));
 });

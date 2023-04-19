@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\Customer;
+use Symfony\Component\HttpFoundation\Response;
 
 use function Pest\Laravel\get;
 
@@ -23,7 +24,7 @@ it('should be return list of customers page 1', function () {
     }
 
     userLogin()->get(uri: route('customers.index'))
-        ->assertStatus(status: 200)
+        ->assertStatus(status: Response::HTTP_OK)
         ->assertExactJson(data: [
             'data' => array_splice($customerList, 0, 10),
             'links' => [
@@ -83,7 +84,7 @@ it('should be return list of customers page 2', function () {
     }
 
     userLogin()->get(uri: route('customers.index', ['page' => 2]))
-        ->assertStatus(status: 200)
+        ->assertStatus(status: Response::HTTP_OK)
         ->assertExactJson(data: [
             'data' => array_splice($customerList, 10, 20),
             'links' => [
@@ -128,6 +129,6 @@ it('should be return list of customers page 2', function () {
 
 it('should be return 302 if user is not auth', function () {
     get(uri: route('customers.index'))
-        ->assertStatus(status: 302)
+        ->assertStatus(status: Response::HTTP_FOUND)
         ->assertLocation(uri: route('login'));
 });

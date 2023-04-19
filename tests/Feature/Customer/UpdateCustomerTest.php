@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\Customer;
+use Symfony\Component\HttpFoundation\Response;
 
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
@@ -27,11 +28,11 @@ it('should update customer', function () {
         'email' => $email,
         'note' => $note,
     ])
-        ->assertStatus(status: 200)
+        ->assertStatus(status: Response::HTTP_OK)
         ->assertJson(value: ['data' => $newCustomer]);
 
     assertDatabaseCount(table: Customer::class, count: 1);
-    assertDatabaseMissing(table: Customer::class, data: [$customer]);
+    assertDatabaseMissing(table: Customer::class, data: $customer->toArray());
     assertDatabaseHas(table: Customer::class, data: $newCustomer);
 });
 
@@ -45,7 +46,7 @@ it('should be return 404 if customer not found', function () {
         'email' => $email,
         'note' => $note,
     ])
-        ->assertStatus(status: 404);
+        ->assertStatus(status: Response::HTTP_NOT_FOUND);
 });
 
 it('should be return an error if name is empty', function () {
@@ -100,6 +101,6 @@ it('should be return 302 if user is not auth', function () {
         'email' => fake()->email,
         'note' => fake()->paragraphs(rand(1, 3), true),
     ])
-        ->assertStatus(status: 302)
+        ->assertStatus(status: Response::HTTP_FOUND)
         ->assertLocation(uri: route('login'));
 });

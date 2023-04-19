@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Customer\IndexCustomerController;
 use App\Http\Controllers\Api\Customer\ShowCustomerController;
 use App\Http\Controllers\Api\Customer\StoreCustomerController;
 use App\Http\Controllers\Api\Customer\UpdateCustomerController;
+use App\Http\Controllers\Api\Order\StoreOrderController;
 use App\Http\Controllers\Api\Product\ArchivedProductController;
 use App\Http\Controllers\Api\Product\DeleteProductController;
 use App\Http\Controllers\Api\Product\IndexProductController;
@@ -55,4 +56,11 @@ Route::prefix('customers')
         Route::put('{customer}', UpdateCustomerController::class)->name('update');
         Route::delete('{customer}', DeleteCustomerController::class)->name('delete');
         Route::put('{customer}/archived', ArchivedCustomerController::class)->name('archived');
+    });
+
+Route::prefix('orders')
+    ->as('orders.')
+    ->middleware('auth:sanctum')
+    ->group(static function (): void {
+        Route::post('/', StoreOrderController::class)->name('store');
     });

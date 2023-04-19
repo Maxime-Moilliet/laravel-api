@@ -16,6 +16,7 @@ class Order extends Model
 
     protected $fillable = [
         'ref',
+        'price_excluding_vat',
         'price',
         'status',
         'customer_id',
@@ -38,6 +39,8 @@ class Order extends Model
      */
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)
+            ->withPivot('vat', 'price_excluding_vat', 'price', 'quantity')
+            ->using(OrderProduct::class);
     }
 }

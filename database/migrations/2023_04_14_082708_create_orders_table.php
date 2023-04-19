@@ -11,7 +11,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('ref');
+            $table->string('ref')->unique();
+            $table->integer('price_excluding_vat');
             $table->integer('price');
             $table->enum('status', [
                 'incomplete',

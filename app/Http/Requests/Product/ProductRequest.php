@@ -22,8 +22,8 @@ final class ProductRequest extends FormRequest
         return [
             'name' => ['required'],
             'ref' => ['required', Rule::unique('products', 'ref')->ignore($this->product)],
-            'vat' => ['required', 'integer'],
-            'price_excluding_vat' => ['required', 'integer'],
+            'vat' => ['required', 'integer', 'min:0'],
+            'price_excluding_vat' => ['required', 'integer', 'min:0'],
         ];
     }
 }

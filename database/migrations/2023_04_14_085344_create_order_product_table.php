@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('vat');
             $table->integer('price_excluding_vat');
             $table->integer('price');
+            $table->integer('quantity');
             $table->primary(['order_id', 'product_id']);
         });
     }

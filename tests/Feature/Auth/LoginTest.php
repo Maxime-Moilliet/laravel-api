@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\User;
+use Symfony\Component\HttpFoundation\Response;
 
 use function Pest\Laravel\post;
 
@@ -13,7 +14,7 @@ it('should be login user', function () {
         'email' => $user->email,
         'password' => 'password',
     ])
-        ->assertStatus(200);
+        ->assertStatus(status: Response::HTTP_OK);
 });
 
 it('should be return an error if email is empty', function () {

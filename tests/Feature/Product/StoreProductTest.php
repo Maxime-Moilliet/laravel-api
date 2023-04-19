@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\Product;
+use Symfony\Component\HttpFoundation\Response;
 
 use function Pest\Faker\fake;
 use function Pest\Laravel\assertDatabaseCount;
@@ -10,8 +11,6 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\post;
 
 it('should store new product', function () {
-    assertDatabaseCount(table: Product::class, count: 0);
-
     $name = fake()->words(3, true);
     $ref = 'ref_'.fake()->uuid;
 
@@ -30,7 +29,7 @@ it('should store new product', function () {
         'vat' => 15,
         'price_excluding_vat' => 10000,
     ])
-        ->assertStatus(status: 201)
+        ->assertStatus(status: Response::HTTP_CREATED)
         ->assertJson(value: ['data' => $product]);
 
     assertDatabaseCount(table: Product::class, count: 1);
@@ -85,6 +84,18 @@ it('should be return an error if vat is not integer', function () {
     assertDatabaseCount(table: Product::class, count: 0);
 });
 
+it('should be return an error if vat is not greater than 0', function () {
+    userLogin()->post(uri: route('products.store'), data: [
+        'name' => fake()->words(3, true),
+        'ref' => 'ref_'.fake()->uuid,
+        'vat' => -1,
+        'price_excluding_vat' => 10000,
+    ])
+        ->assertSessionHasErrors(keys: ['vat']);
+
+    assertDatabaseCount(table: Product::class, count: 0);
+});
+
 it('should be return an error if price excluding vat is empty', function () {
     userLogin()->post(uri: route('products.store'), data: [
         'name' => fake()->words(3, true),
@@ -102,6 +113,18 @@ it('should be return an error if price excluding vat is not integer', function (
         'name' => fake()->words(3, true),
         'ref' => 'ref_'.fake()->uuid,
         'vat' => 20,
+        'price_excluding_vat' => 'not_integer',
+    ])
+        ->assertSessionHasErrors(keys: ['price_excluding_vat']);
+
+    assertDatabaseCount(table: Product::class, count: 0);
+});
+
+it('should be return an error if price excluding vat is not greater than 0', function () {
+    userLogin()->post(uri: route('products.store'), data: [
+        'name' => fake()->words(3, true),
+        'ref' => 'ref_'.fake()->uuid,
+        'vat' => -1,
         'price_excluding_vat' => 'not_integer',
     ])
         ->assertSessionHasErrors(keys: ['price_excluding_vat']);
@@ -135,6 +158,6 @@ it('should be return 302 if user is not auth', function () {
         'vat' => 15,
         'price_excluding_vat' => 10000,
     ])
-        ->assertStatus(status: 302)
+        ->assertStatus(status: Response::HTTP_FOUND)
         ->assertLocation(uri: route('login'));
 });

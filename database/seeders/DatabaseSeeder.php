@@ -21,20 +21,28 @@ final class DatabaseSeeder extends Seeder
         $customers = Customer::factory(20)->create();
 
         foreach ($customers as $customer) {
-            $orders = Order::factory(2)->create(['customer_id' => $customer->id, 'price' => 0]);
+            $orders = Order::factory(2)->create([
+                'customer_id' => $customer->id,
+                'price_excluding_vat' => 0,
+                'price' => 0
+            ]);
 
             foreach ($orders as $order) {
                 $products = Product::factory(2)->create();
 
                 foreach ($products as $product) {
+                    $quantity = rand(1, 5);
+
                     $order->products()->attach($product->id, [
                         'vat' => $product->vat,
                         'price_excluding_vat' => $product->price_excluding_vat,
                         'price' => $product->price,
+                        'quantity' => $quantity
                     ]);
 
                     $order->update([
-                        'price' => $order->price + $product->price,
+                        'price_excluding_vat' => $product->price_excluding_vat * $quantity,
+                        'price' => $product->price * $quantity,
                     ]);
                 }
             }
